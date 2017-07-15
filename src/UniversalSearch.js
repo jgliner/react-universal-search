@@ -20,7 +20,7 @@ class UniversalSearch extends React.Component {
   checkForCategories(listToSearch) {
     const listKeys = Object.keys(listToSearch);
     for (let i = 0; i < listKeys.length; i++) {
-      if (typeof listToSearch[listKeys[i]] === 'object') {
+      if (Array.isArray(listToSearch[listKeys[i]])) {
         return true;
       }
     }
@@ -42,8 +42,8 @@ class UniversalSearch extends React.Component {
   }
 
   filterMatches(re) {
-    Object.keys(this.props.listToSearch).forEach((category) => {
-      this.props.listToSearch[category].forEach((item) => {
+    const scan = (inputArr, category) => {
+      inputArr.forEach((item) => {
         if (item.name.match(re) && re !== '') {
           item._category = category;
           this.state.results.add(item);
@@ -52,7 +52,16 @@ class UniversalSearch extends React.Component {
           this.state.results.delete(item);
         }
       });
-    });
+    };
+
+    if (this.includeCategories) {
+      Object.keys(this.props.listToSearch).forEach((category) => {
+        scan(this.props.listToSearch[category], category);
+      });
+    }
+    else {
+      scan(this.props.listToSearch);
+    }
     console.log(this.state.results)
   }
 
