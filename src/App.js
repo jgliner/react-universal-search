@@ -1,6 +1,8 @@
 import React from 'react';
 
-import exampleData from './brews.js';
+import exampleData from './mappedBrews.js';
+
+import UniversalSearch from './UniversalSearch.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,18 +11,12 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
-      <div className="example-parent-component">
+      <div className="univ-search-wrapper">
         <h1>Please Select</h1>
-        <br />
-        <select>
-          {
-            exampleData.map((opt, i) => (
-              <option value={i}>{opt.style} | {opt.brewery_id}</option>
-            ))
-          }
-        </select>
+        <UniversalSearch
+          listToSearch={exampleData}
+        />
       </div>
     );
   }
