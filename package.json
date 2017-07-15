@@ -1,0 +1,38 @@
+{
+  "name": "react-universal-search",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --watch"
+  },
+  "description": "Highly customizable/discrete client-side 'auto-complete' component for large datasets",
+  "author": "Jarrett Gliner",
+  "repository": "https://github.com/jgliner/react-sortable-stats-table",
+  "license": "MIT",
+  "frameworks": [
+    "webpack",
+    "react"
+  ],
+  "devDependencies": {
+    "body-parser": "^1.17.2",
+    "clean-webpack-plugin": "^0.1.16",
+    "css-loader": "^0.28.4",
+    "express": "^4.15.3",
+    "html-webpack-plugin": "^2.29.0",
+    "morgan": "^1.8.2",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.2.0",
+    "webpack-dev-server": "^2.5.1"
+  },
+  "dependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "lodash": "^4.17.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
