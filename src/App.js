@@ -16,6 +16,7 @@ class App extends React.Component {
         <h1>Please Select</h1>
         <UniversalSearch
           listToSearch={exampleData}
+          hasCategories
         />
       </div>
     );

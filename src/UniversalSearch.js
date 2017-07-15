@@ -11,6 +11,20 @@ class UniversalSearch extends React.Component {
 
     this.inputQuery = this.inputQuery.bind(this);
     this.filterMatches = this.filterMatches.bind(this);
+    this.renderMatches = this.renderMatches.bind(this);
+    this.checkForCategories = this.checkForCategories.bind(this);
+
+    this.includeCategories = typeof this.includeCategories !== 'undefined' ? this.props.hasCategories : this.checkForCategories(props.listToSearch);
+  }
+
+  checkForCategories(listToSearch) {
+    const listKeys = Object.keys(listToSearch);
+    for (let i = 0; i < listKeys.length; i++) {
+      if (typeof listToSearch[listKeys[i]] === 'object') {
+        return true;
+      }
+    }
+    return false;
   }
 
   inputQuery(e) {
@@ -25,22 +39,35 @@ class UniversalSearch extends React.Component {
     Object.keys(this.props.listToSearch).forEach((category) => {
       this.props.listToSearch[category].forEach((item) => {
         if (item.name.match(re) && re !== '') {
-          this.state.results.add(item.name);
+          item._category = category;
+          this.state.results.add(item);
         }
-        else {
-          this.state.results.delete(item.name);
+        else if (this.state.results.has(item) && re !== '') {
+          this.state.results.delete(item);
         }
+        return;
       });
     });
     console.log(this.state.results)
   }
 
+  renderMatches(resultsSet) {
+    return [...resultsSet].map((matchingEntry, i) => (
+      <div className="univ-search-matching-results" key={i}>{matchingEntry.name}</div>
+    ));
+  }
+
   render() {
-    console.log(this.state)
+    console.log(this.state, this.includeCategories)
+    const matchingItems = this.state.results.size > 0 ? this.renderMatches(this.state.results) : <div>No Matches...</div>;
+
     return (
       <div className="univ-search-wrapper">
         <input onChange={this.inputQuery} />
         {this.props.placeholder}
+        <br />
+        <br />
+        {matchingItems}
       </div>
     );
   }
