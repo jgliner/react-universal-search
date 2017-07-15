@@ -28,11 +28,17 @@ class UniversalSearch extends React.Component {
   }
 
   inputQuery(e) {
-    let re = e.target.value.trim().length > 0 ? new RegExp(e.target.value.trim(), 'gi') : '';
+    let input = e.target.value.replace(/[\.\+\*\?\^\$\[\]\{\}\(\)\|\/\\]/ig, sym => `\\${sym}`);
+    let re = input.trim().length > 0 ? new RegExp(input.trim(), 'gi') : '';
     this.setState({
-      query: e.target.value
+      query: input,
     });
-    this.filterMatches(re);
+    if (input) {
+      this.filterMatches(re);
+    }
+    else {
+      this.state.results.clear();
+    }
   }
 
   filterMatches(re) {
@@ -45,7 +51,6 @@ class UniversalSearch extends React.Component {
         else if (this.state.results.has(item) && re !== '') {
           this.state.results.delete(item);
         }
-        return;
       });
     });
     console.log(this.state.results)
@@ -53,13 +58,13 @@ class UniversalSearch extends React.Component {
 
   renderMatches(resultsSet) {
     return [...resultsSet].map((matchingEntry, i) => (
-      <div className="univ-search-matching-results" key={i}>{matchingEntry.name}</div>
+      <div className="univ-search-matching-results" key={`match_${i}`}>{matchingEntry.name}</div>
     ));
   }
 
   render() {
     console.log(this.state, this.includeCategories)
-    const matchingItems = this.state.results.size > 0 ? this.renderMatches(this.state.results) : <div>No Matches...</div>;
+    const matchingItemElements = this.state.results.size > 0 ? this.renderMatches(this.state.results) : <div>No Matches...</div>;
 
     return (
       <div className="univ-search-wrapper">
@@ -67,7 +72,7 @@ class UniversalSearch extends React.Component {
         {this.props.placeholder}
         <br />
         <br />
-        {matchingItems}
+        {matchingItemElements}
       </div>
     );
   }
