@@ -5,11 +5,6 @@ const path = require('path');
 
 module.exports = {
   devtool: 'cheap-eval-source-map',
-  devServer: {
-    port: 9000,
-    contentBase: path.join(__dirname, 'public'),
-    compress: true,
-  },
   entry: {
     app: './src/UniversalSearch.js',
   },
