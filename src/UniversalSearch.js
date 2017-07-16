@@ -67,9 +67,24 @@ class UniversalSearch extends React.Component {
   }
 
   renderMatches(resultsSet) {
-    return [...resultsSet].map((matchingEntry, i) => this.props.customComponent(matchingEntry, i) || (
-      <div className="univ-search-matching-results" key={`match_${i}`}>{matchingEntry.name}</div>
-    ));
+    let category = null;
+    return [...resultsSet].map((matchingEntry, i) => {
+      if (this.props.customComponent) {
+        return this.props.customComponent(matchingEntry, i);
+      }
+      const entry = (
+        <div
+          className={`univ-search-matching-results ${matchingEntry._category !== category ? 'univ-search-category-head' : ''}`}
+          key={`match_${i}`}
+        >
+          {matchingEntry.name}
+        </div>
+      );
+      if (matchingEntry._category !== category) {
+        category = matchingEntry._category;
+      }
+      return entry;
+    });
   }
 
   renderMatchCount(matchCount) {
