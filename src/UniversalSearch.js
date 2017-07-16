@@ -44,13 +44,21 @@ class UniversalSearch extends React.Component {
 
   filterMatches(re) {
     const scan = (inputArr, category) => {
-      inputArr.forEach((item) => {
+      let offset = 0;
+      inputArr.forEach((item, i) => {
         if (item.name.match(re) && re !== '') {
+          if (offset - i === 0) {
+            item._firstInCategory = true;
+          }
           item._category = category;
           this.state.results.add(item);
         }
         else if (this.state.results.has(item) && re !== '') {
           this.state.results.delete(item);
+          offset++;
+        }
+        else {
+          offset++;
         }
       });
     };
@@ -67,22 +75,23 @@ class UniversalSearch extends React.Component {
   }
 
   renderMatches(resultsSet) {
-    let category = null;
     return [...resultsSet].map((matchingEntry, i) => {
       if (this.props.customComponent) {
         return this.props.customComponent(matchingEntry, i);
       }
       const entry = (
         <div
-          className={`univ-search-matching-results ${matchingEntry._category !== category ? 'univ-search-category-head' : ''}`}
+          className={`univ-search-matching-results ${matchingEntry._firstInCategory ? 'univ-search-category-head' : ''}`}
           key={`match_${i}`}
         >
+          {
+            matchingEntry.includeCategories && matchingEntry._firstInCategory ? (
+              <div className="univ-search-category-header">{matchingEntry._category}</div>
+            ) : null
+          }
           {matchingEntry.name}
         </div>
       );
-      if (matchingEntry._category !== category) {
-        category = matchingEntry._category;
-      }
       return entry;
     });
   }

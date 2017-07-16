@@ -13,8 +13,6 @@ class App extends React.Component {
   }
 
   render() {
-    let category = null;
-
     const resultsHeader = (brew) => (
       <div className="brew-result-header">
         {brew._category}
@@ -25,10 +23,10 @@ class App extends React.Component {
       const entry = (
         <div
           key={i}
-          className={`brew-search-component ${brew._category !== category ? 'brew-search-category-head' : ''}`}
+          className={`brew-search-component ${brew._firstInCategory ? 'brew-search-category-head' : ''}`}
         >
           <div className="brew-result-text-header">
-            { brew._category !== category ? resultsHeader(brew) : null }
+            { brew._firstInCategory ? resultsHeader(brew) : null }
             <div className="brew-result-text">
               <img src="./mug.png" className="brew-mug" alt="Mug" />
               <div className="brew-name">{brew.name}</div>
@@ -40,9 +38,6 @@ class App extends React.Component {
           </div>
         </div>
       );
-      if (brew._category !== category) {
-        category = brew._category;
-      }
       return entry;
     };
 
