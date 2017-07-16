@@ -3,10 +3,6 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const path = require('path');
 
-const webpack = require('webpack');
-const config = require('../webpack.config');
-const compiler = webpack(config);
-
 const app = express();
 
 app.use(morgan('dev'));
