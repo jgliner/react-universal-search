@@ -85,8 +85,13 @@ class UniversalSearch extends React.Component {
           key={`match_${i}`}
         >
           {
-            matchingEntry.includeCategories && matchingEntry._firstInCategory ? (
-              <div className="univ-search-category-header">{matchingEntry._category}</div>
+            this.includeCategories && matchingEntry._firstInCategory ? (
+              <div
+                className="univ-search-category-head"
+                style={{ color: '#aaa', fontStyle: 'italic', fontSize: '12px', margin: '10px 0' }}
+              >
+                {matchingEntry._category}
+              </div>
             ) : null
           }
           {matchingEntry.name}
