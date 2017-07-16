@@ -1,6 +1,6 @@
 import React from 'react';
 
-import exampleData from './mappedBrews.js';
+import exampleData from '../data/mappedBrews.js';
 
 import UniversalSearch from './UniversalSearch.js';
 
