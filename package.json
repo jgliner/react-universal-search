@@ -1,6 +1,6 @@
 {
   "name": "react-universal-search",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./dist/react-universal-search.js",
   "scripts": {
     "dev": "webpack-dev-server --config ./example/webpack.config.js",

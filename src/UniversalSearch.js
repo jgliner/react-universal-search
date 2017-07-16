@@ -144,8 +144,12 @@ class UniversalSearch extends React.Component {
   }
 
   render() {
+    let noMatchMessage = <div>No Matches...</div>;
+    if (!this.state.query || this.props.hideNoMatchMessage) {
+      noMatchMessage = null;
+    }
     const matchCountComponent = this.props.showMatchCount ? this.renderMatchCount(this.state.results.size) : null;
-    const matchingItemElements = this.state.results.size > 0 ? this.renderMatches(this.state.results) : <div>No Matches...</div>;
+    const matchingItemElements = this.state.results.size > 0 ? this.renderMatches(this.state.results) : noMatchMessage;
 
     return (
       <div className="univ-search-wrapper">
