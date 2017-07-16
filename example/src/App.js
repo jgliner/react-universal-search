@@ -13,7 +13,7 @@ class App extends React.Component {
   }
 
   render() {
-    const resultsHeader = (brew) => (
+    const resultsHeader = brew => (
       <div className="brew-result-header">
         {brew._category}
       </div>
@@ -48,6 +48,7 @@ class App extends React.Component {
           <UniversalSearch
             listToSearch={exampleData}
             customComponent={customComponent}
+            limitResults={3}
             hasCategories
             showMatchCount
           />

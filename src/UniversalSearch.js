@@ -45,22 +45,28 @@ class UniversalSearch extends React.Component {
   filterMatches(re) {
     const scan = (inputArr, category) => {
       let offset = 0;
-      inputArr.forEach((item, i) => {
+      for (let i = 0; i < inputArr.length; i++) {
+        let item = inputArr[i];
         if (item.name.match(re) && re !== '') {
+          // if match
           if (offset - i === 0) {
             item._firstInCategory = true;
           }
           item._category = category;
           this.state.results.add(item);
+          if (this.props.limitResults && offset - i + 1 > this.props.limitResults) {
+            return;
+          }
         }
         else if (this.state.results.has(item) && re !== '') {
+          // if no match
           this.state.results.delete(item);
           offset++;
         }
         else {
           offset++;
         }
-      });
+      }
     };
 
     if (this.includeCategories) {
