@@ -9,10 +9,11 @@ class UniversalSearch extends React.Component {
       results: new Set(),
     };
 
+    this.checkForCategories = this.checkForCategories.bind(this);
     this.inputQuery = this.inputQuery.bind(this);
     this.filterMatches = this.filterMatches.bind(this);
     this.renderMatches = this.renderMatches.bind(this);
-    this.checkForCategories = this.checkForCategories.bind(this);
+    this.renderMatchCount = this.renderMatchCount.bind(this);
 
     this.includeCategories = typeof this.includeCategories !== 'undefined' ? this.props.hasCategories : this.checkForCategories(props.listToSearch);
   }
@@ -66,22 +67,35 @@ class UniversalSearch extends React.Component {
   }
 
   renderMatches(resultsSet) {
-    return [...resultsSet].map((matchingEntry, i) => (
+    return [...resultsSet].map((matchingEntry, i) => this.props.customComponent(matchingEntry, i) || (
       <div className="univ-search-matching-results" key={`match_${i}`}>{matchingEntry.name}</div>
     ));
   }
 
+  renderMatchCount(matchCount) {
+    return this.props.customMatchCountComponent ?
+      this.props.customMatchCountComponent(matchCount) :
+      <div className="univ-search-match-count" style={{ marginTop: '10px', color: '#aaa' }}>
+        {matchCount} Matches
+      </div>;
+  }
+
   render() {
     console.log(this.state, this.includeCategories)
+
+    const matchCountComponent = this.props.showMatchCount ? this.renderMatchCount(this.state.results.size) : null;
     const matchingItemElements = this.state.results.size > 0 ? this.renderMatches(this.state.results) : <div>No Matches...</div>;
 
     return (
       <div className="univ-search-wrapper">
         <input onChange={this.inputQuery} />
         {this.props.placeholder}
+        {this.props.showMatchCount ? matchCountComponent : null}
         <br />
         <br />
-        {matchingItemElements}
+        <div className="univ-search-results-wrapper">
+          {matchingItemElements}
+        </div>
       </div>
     );
   }
