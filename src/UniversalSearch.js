@@ -71,7 +71,6 @@ class UniversalSearch extends React.Component {
     else {
       scan(this.props.listToSearch);
     }
-    console.log(this.state.results)
   }
 
   renderMatches(resultsSet) {
@@ -110,8 +109,6 @@ class UniversalSearch extends React.Component {
   }
 
   render() {
-    console.log(this.state, this.includeCategories)
-
     const matchCountComponent = this.props.showMatchCount ? this.renderMatchCount(this.state.results.size) : null;
     const matchingItemElements = this.state.results.size > 0 ? this.renderMatches(this.state.results) : <div>No Matches...</div>;
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import exampleData from '../data/mappedBrews.js';
 
-import UniversalSearch from './UniversalSearch.js';
+import UniversalSearch from '../../dist/react-universal-search.js';
 
 import './App.css';
 

@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const path = require('path');
@@ -12,8 +11,7 @@ module.exports = {
     compress: true,
   },
   entry: {
-    app: './index.js',
-    vendor: ['lodash'],
+    app: './src/UniversalSearch.js',
   },
   module: {
     rules: [
@@ -23,9 +21,9 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'es2015', 'stage-0', 'react']
-          }
-        }
+            presets: ['env', 'es2015', 'stage-0', 'react'],
+          },
+        },
       },
       {
         test: /\.css$/,
@@ -37,15 +35,16 @@ module.exports = {
     ],
   },
   plugins: [
-    // new CleanWebpackPlugin(['public']),
-    new HtmlWebpackPlugin({
-      title: 'How About IBU?',
-      filename: './public/index.html',
-    }),
-    new webpack.HotModuleReplacementPlugin(),
+    new CleanWebpackPlugin(['dist']),
+  ],
+  externals: [
+    'react',
+    'react-dom',
   ],
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'public'),
+    filename: 'react-universal-search.js',
+    path: path.resolve(__dirname, 'dist'),
+    library: 'UniversalSearch',
+    libraryTarget: 'umd',
   },
 };
