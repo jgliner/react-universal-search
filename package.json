@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "main": "./dist/react-universal-search.js",
   "scripts": {
-    "dev": "webpack-dev-server --config ./example/webpack.config.js",
+    "dev": "webpack-dev-server --config ./example/webpack.config.js --watch",
     "build": "webpack --optimize-minimize --define process.env.NODE_ENV='production'"
   },
   "description": "Highly customizable/discrete client-side 'auto-complete' component for large datasets",

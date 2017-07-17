@@ -61,9 +61,11 @@ class UniversalSearch extends React.Component {
       // we need this offset to see if we're below a limit if one is specified
       // and/or to see if the category header needs to move down
       let offset = 0;
+      let showing = 0;
       for (let i = 0; i < inputArr.length; i++) {
         let item = inputArr[i];
         if (item.name.match(re) && re !== '') {
+          showing++;
           // if string matches
           if (offset - i === 0) {
             // if first match in new category, add _firstInCategory property
@@ -75,7 +77,7 @@ class UniversalSearch extends React.Component {
 
             // if a limit was passed in, check if we've exceeded it
             // if so, bail out
-          if (this.props.limitResults && offset - i + 1 > this.props.limitResults) {
+          if (this.props.limitResults && showing >= this.props.limitResults) {
             return;
           }
         }
