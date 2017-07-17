@@ -58,38 +58,40 @@ class UniversalSearch extends React.Component {
 
   filterMatches(re) {
     const scan = (inputArr, category) => {
-      // we need this offset to see if we're below a limit if one is specified
-      // and/or to see if the category header needs to move down
-      let offset = 0;
+      let hasHeader = false;
+      // only applicable if result limit specified
       let showing = 0;
       for (let i = 0; i < inputArr.length; i++) {
         let item = inputArr[i];
+        item._firstInCategory = false;
         if (item.name.match(re) && re !== '') {
-          showing++;
           // if string matches
-          if (offset - i === 0) {
-            // if first match in new category, add _firstInCategory property
-            // this will be used as a flag to render the category header below.
-            item._firstInCategory = true;
-          }
-          item._category = category;
-          this.state.results.add(item);
+          showing++;
 
+          // delete the item if it exists to re-init order
+          this.state.results.delete(item);
+
+          item._category = category;
+          if (!hasHeader) {
+            item._firstInCategory = true;
+            hasHeader = true;
+          }
             // if a limit was passed in, check if we've exceeded it
             // if so, bail out
-          if (this.props.limitResults && showing >= this.props.limitResults) {
-            return;
+          if (!this.props.limitResults || showing <= this.props.limitResults) {
+            this.state.results.add(item);
           }
         }
-        else if (this.state.results.has(item) && re !== '') {
-          // if no match, but present in previous result set, delete and increment
-          // offset
-          this.state.results.delete(item);
-          offset++;
-        }
         else {
-          // if for any reason an empty item exists, just increment the offset
-          offset++;
+          // if string does not match,
+          // strip order-based props
+          if (item._firstInCategory) {
+            item._firstInCategory = false;
+            // this category no longer has a header...
+            // it will be set in the next item
+            hasHeader = false;
+          }
+          this.state.results.delete(item);
         }
       }
     };
@@ -160,7 +162,10 @@ class UniversalSearch extends React.Component {
         {this.props.showMatchCount ? matchCountComponent : null}
         <br />
         <br />
-        <div className="univ-search-results-wrapper">
+        <div
+          className="univ-search-results-wrapper"
+          style={{ display: this.state.results.size > 0 || !this.props.hideNoMatchMessage ? 'inherit' : 'none' }}
+        >
           {matchingItemElements}
         </div>
       </div>
