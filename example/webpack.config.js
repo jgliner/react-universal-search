@@ -1,17 +1,12 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackDevServer = require('webpack-dev-server');
 
 const path = require('path');
 
-module.exports = {
+const config = {
   devtool: 'cheap-eval-source-map',
-  devServer: {
-    port: 9000,
-    contentBase: path.join(__dirname, 'public'),
-  },
-  entry: {
-    app: './example/index.js',
-  },
+  entry: ['./example/index.js'],
   module: {
     rules: [
       {
@@ -39,9 +34,41 @@ module.exports = {
       filename: './public/index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
   ],
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'public/'),
   },
 };
+
+const options = {
+  port: 9000,
+  contentBase: config.output.path,
+  // inline: true,
+  hot: true,
+  stats: { colors: true },
+};
+
+let wpDevServer;
+
+config.entry.unshift('webpack-dev-server/client?/', 'webpack/hot/dev-server');
+wpDevServer = new WebpackDevServer(webpack(config), options);
+
+console.log('--Starting WebpackDevServer--\n\n');
+wpDevServer.listen(options.port, 'localhost', (err) => {
+  if (err) {
+    console.error(err);
+  }
+  console.log('Example Now Serving @:');
+  console.log(`
+      _.._..,_,_.._
+     (             )
+      ]~,"-.-~~-~~[
+    .=]           [
+    | ] localhost:[
+    '=]   ${options.port}    [
+      |           |
+       ~~-------~~
+  `);
+});

@@ -5,7 +5,10 @@ import App from './src/App.js';
 
 if (module.hot) {
   module.hot.accept('./src/App.js', () => {
-    console.log('HMR Accepted');
+    const Next = require('./src/App.js').default;
+    ReactDOM.render(<Next />,
+      document.getElementById('app'),
+    );
   });
 }
 
