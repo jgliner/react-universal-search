@@ -6,7 +6,7 @@ const path = require('path');
 
 const config = {
   devtool: 'cheap-eval-source-map',
-  entry: ['./example/index.js'],
+  entry: ['./example/index.js', './src/UniversalSearch.js'],
   module: {
     rules: [
       {
@@ -45,7 +45,6 @@ const config = {
 const options = {
   port: 9000,
   contentBase: config.output.path,
-  // inline: true,
   hot: true,
   stats: { colors: true },
 };
