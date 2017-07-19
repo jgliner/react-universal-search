@@ -1,5 +1,38 @@
 import React from 'react';
 
+const formattingErr = ` Cannot parse object. Please make sure you're passing in "listToSearch" in one of the following formats:
+
+  Plain Array of Objects (i.e. No Categories):
+
+  [
+    {foo: "bar"},
+    {baz: "qux"},
+    {quux: "corge"},
+    ...
+  ]
+
+  ---
+
+  Keyed Objects Containing Arrays:
+
+  {
+    foo: [
+      {bar: "baz"},
+      ...
+    ],
+    qux: [
+      {quux: "corge"},
+      ...
+    ],
+    ...
+  }
+`;
+
+const methodWarning = passedMethod => `
+  Invalid Method: "${passedMethod}".\nFalling back to "greedy"\n\nValid Options are ['strict', 'greedy']. If no method is specified, "greedy" will automatically be used without showing this warning.
+`;
+
+
 class UniversalSearch extends React.Component {
   constructor(props) {
     super(props);
@@ -25,13 +58,17 @@ class UniversalSearch extends React.Component {
     // check if categories were explicitly passed
     // if not, iterate through the Object keys
     // and see if category inclusion can be detected from structure
-    this.includeCategories = typeof this.includeCategories !== 'undefined' ? this.props.hasCategories : this.checkForCategories(this.props.listToSearch);
+    this.includeCategories = typeof this.props.hasCategories !== 'undefined' ? this.props.hasCategories : this.checkForCategories(this.props.listToSearch);
   }
 
   componentDidMount() {
     const validParseMethods = ['strict', 'greedy'];
     if (this.props.parseMethod && !validParseMethods.includes(this.props.parseMethod)) {
-      console.warn(`Invalid Method: "${this.props.parseMethod}".\nFalling back to "greedy"\n\nValid Options are ['strict', 'greedy']. If no method is specified, "greedy" will automatically be used without showing this warning.`);
+      console.warn(methodWarning(this.props.parseMethod));
+    }
+
+    if (typeof this.props.listToSearch !== 'object') {
+      console.error(formattingErr);
     }
   }
 
