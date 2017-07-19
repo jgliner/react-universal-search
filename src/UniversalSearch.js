@@ -18,11 +18,14 @@ class UniversalSearch extends React.Component {
     this.filterMatches = this.filterMatches.bind(this);
     this.renderMatches = this.renderMatches.bind(this);
     this.renderMatchCount = this.renderMatchCount.bind(this);
+    this.renderIfNoMatches = this.renderIfNoMatches.bind(this);
+  }
 
+  componentWillMount() {
     // check if categories were explicitly passed
     // if not, iterate through the Object keys
     // and see if category inclusion can be detected from structure
-    this.includeCategories = typeof this.includeCategories !== 'undefined' ? this.props.hasCategories : this.checkForCategories(props.listToSearch);
+    this.includeCategories = typeof this.includeCategories !== 'undefined' ? this.props.hasCategories : this.checkForCategories(this.props.listToSearch);
   }
 
   componentDidMount() {
@@ -161,25 +164,33 @@ class UniversalSearch extends React.Component {
       </div>;
   }
 
-  render() {
-    let noMatchMessage = <div>No Matches...</div>;
-    if (!this.state.query || this.props.hideNoMatchMessage) {
-      noMatchMessage = null;
+  renderIfNoMatches(query) {
+    // also optional
+
+    // do not show "no matches found" message if no query
+    // may change this to an option later
+    if (!query) {
+      return null;
     }
-    const matchCountComponent = this.props.showMatchCount ? this.renderMatchCount(this.state.results.size) : null;
-    const matchingItemElements = this.state.results.size > 0 ? this.renderMatches(this.state.results) : noMatchMessage;
+    return this.props.customNoMatchComponent ?
+      this.props.customNoMatchComponent() : <div className="univ-search-no-matches">No Matches...</div>
+  }
+
+  render() {
+    const matchesFound = this.state.results.size > 0;
+
+    const matchCountComponent = this.props.showMatchCount || this.props.customMatchCountComponent ? this.renderMatchCount(this.state.results.size) : null;
+    const noMatchComponent = this.props.showWhenNoMatches || this.props.customNoMatchComponent ? this.renderIfNoMatches(this.state.query) : null;
+
+    const matchingItemElements = matchesFound ? this.renderMatches(this.state.results) : noMatchComponent;
 
     return (
       <div className="univ-search-wrapper">
-        <input onChange={this.inputQuery} />
-        {this.props.placeholder}
-        {this.props.showMatchCount ? matchCountComponent : null}
+        <input placeholder={this.props.placeholder} onChange={this.inputQuery} />
+        {matchCountComponent}
         <br />
         <br />
-        <div
-          className="univ-search-results-wrapper"
-          style={{ display: this.state.results.size > 0 || !this.props.hideNoMatchMessage ? 'inherit' : 'none' }}
-        >
+        <div className="univ-search-results-wrapper">
           {matchingItemElements}
         </div>
       </div>

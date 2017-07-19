@@ -41,16 +41,27 @@ class App extends React.Component {
       return entry;
     };
 
+    const customMatchCount = matches => (
+      <div className="brew-result-count">{matches} Brews Found!</div>
+    );
+
+    const customNoMatch = () => (
+      <div className="brew-no-match">No matches! Sorry about that :(</div>
+    );
+
     return (
       <div className="search-brews">
         <h1>Please Select</h1>
         <div className="brew-search-wrapper">
           <UniversalSearch
-            listToSearch={exampleData}
             customComponent={customComponent}
-            limitResults={3}
+            customMatchCountComponent={customMatchCount}
+            customNoMatchComponent={customNoMatch}
             hasCategories
-            showMatchCount
+            limitResults={3}
+            listToSearch={exampleData}
+            parseMethod="strict"
+            placeholder="Name or Style"
           />
         </div>
       </div>
