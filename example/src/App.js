@@ -57,6 +57,7 @@ class App extends React.Component {
             customComponent={customComponent}
             customMatchCountComponent={customMatchCount}
             customNoMatchComponent={customNoMatch}
+            focusedOnly
             hasCategories
             limitResults={3}
             listToSearch={exampleData}

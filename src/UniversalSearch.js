@@ -44,6 +44,7 @@ class UniversalSearch extends React.Component {
     this.state = {
       query: '',
       results: new Set(),
+      focused: !this.props.focusedOnly,
     };
 
     this.checkForCategories = this.checkForCategories.bind(this);
@@ -52,6 +53,7 @@ class UniversalSearch extends React.Component {
     this.renderMatches = this.renderMatches.bind(this);
     this.renderMatchCount = this.renderMatchCount.bind(this);
     this.renderIfNoMatches = this.renderIfNoMatches.bind(this);
+    this.focusHandler = this.focusHandler.bind(this);
   }
 
   componentWillMount() {
@@ -216,6 +218,14 @@ class UniversalSearch extends React.Component {
       this.props.customNoMatchComponent : <div className="univ-search-no-matches">No Matches...</div>
   }
 
+  focusHandler() {
+    if (this.props.focusedOnly) {
+      this.setState({
+        focused: !this.state.focused,
+      });
+    }
+  }
+
   render() {
     const matchesFound = this.state.results.size > 0;
 
@@ -224,15 +234,22 @@ class UniversalSearch extends React.Component {
 
     const matchingItemElements = matchesFound ? this.renderMatches(this.state.results) : noMatchComponent;
 
+    let showResults = this.state.query && !this.state.query.match(/^\s+$/igm) && this.state.focused;
+
     return (
       <div className="univ-search-wrapper">
-        <input placeholder={this.props.placeholder} onChange={this.inputQuery} />
+        <input
+          placeholder={this.props.placeholder}
+          onChange={this.inputQuery}
+          onFocus={this.focusHandler}
+          onBlur={this.focusHandler}
+        />
         {matchCountComponent}
         <br />
         <br />
         <div
           className="univ-search-results-wrapper"
-          style={{ display: this.state.query && !this.state.query.match(/^\s+$/igm) ? 'inherit' : 'none' }}
+          style={{ display: showResults ? 'inherit' : 'none' }}
         >
           {matchingItemElements}
         </div>

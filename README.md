@@ -29,6 +29,7 @@ Once you are done making changes, run `npm run build`. This will create the main
 | customComponent | func(item, iterator) | `undefined` |
 | customMatchCountComponent | func(count) | `undefined` |
 | customNoMatchComponent | element | `null` |
+| focusedOnly | bool | `false` |
 | hasCategories | bool | _detected_ |
 | limitResults | int | `0` _(all)_ |
 | listToSearch | obj | `undefined` |
@@ -43,6 +44,7 @@ Once you are done making changes, run `npm run build`. This will create the main
 | customComponent | Component called for each individual item passed in via `listToSearch`. If you want to add conditional rendering logic/styles to each entry and/or category header, this would be the place to do it. If no function is specified, the default layout is an unstyled list of `<div>` elements. -- _More info in [Custom Components](https://github.com/jgliner/react-universal-search#custom-components) below..._ |
 | customMatchCountComponent | Called on every keystroke. Callback includes the number of results that match the given query. |
 | customNoMatchComponent | A React element that displays when exactly zero results match the given query string. |
+| focusedOnly | If set to `true`, will hide the results box `onBlur` and show `onFocus` |
 | hasCategories | This library will try and detect categories in your formatting automatically, to use as headers. It will always detect `false` for non-Object datatypes, as well as Arrays. Pass a boolean in here to override either of these behaviors. |
 | limitResults | If `listToSearch` has categories, this will limit the number of results displayed per category. If `listToSearch` is an array, it will limit all results |
 | *listToSearch* | _[Accepted Input Formats](https://github.com/jgliner/react-universal-search#accepted-input-formats)_ <br> **IMPORTANT: one property _MUST_ be called `name`. This will be the main search string. If this gets to be inconvenient, I will add another parameter for custom Key names** |
