@@ -232,7 +232,7 @@ class UniversalSearch extends React.Component {
         <br />
         <div
           className="univ-search-results-wrapper"
-          style={{ display: this.state.query ? 'inherit' : 'none' }}
+          style={{ display: this.state.query && !this.state.query.match(/^\s+$/igm) ? 'inherit' : 'none' }}
         >
           {matchingItemElements}
         </div>
