@@ -29,7 +29,7 @@ Keyed Objects Containing Arrays:
 `;
 
 const methodWarning = passedMethod => `
-  Invalid Method: "${passedMethod}".\nFalling back to "greedy"\n\nValid Options are ['strict', 'greedy']. If no method is specified, "greedy" will automatically be used without showing this warning.
+  Invalid Method: "${passedMethod}".\nFalling back to "greedy"\n\nValid Options are ['greedy', 'strict', and 'symbol-permissive' ]. If no method is specified, "greedy" will automatically be used without showing this warning.
 `;
 
 
@@ -62,7 +62,7 @@ class UniversalSearch extends React.Component {
   }
 
   componentDidMount() {
-    const validParseMethods = ['strict', 'greedy'];
+    const validParseMethods = ['greedy', 'strict', 'symbol-permissive'];
     if (this.props.parseMethod && !validParseMethods.includes(this.props.parseMethod)) {
       console.warn(methodWarning(this.props.parseMethod));
     }
@@ -91,6 +91,9 @@ class UniversalSearch extends React.Component {
 
     if (this.props.parseMethod === 'strict') {
       re = input.trim().length > 0 ? new RegExp(`^${input.trim()}`, 'gi') : '';
+    }
+    else if (this.props.parseMethod === 'symbol-permissive') {
+      re = input.trim().length > 0 ? new RegExp(`^([\\W\\s]+?${input.trim()}(\\w+)?[\\W\\s]+?)|^([\\W\\s]?(\\w+)?[\\W\\s]+)?${input.trim()}`, 'ig') : '';
     }
     else {
       re = input.trim().length > 0 ? new RegExp(input.trim(), 'gi') : '';

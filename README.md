@@ -32,7 +32,7 @@ Once you are done making changes, run `npm run build`. This will create the main
 | hasCategories | bool | _detected_ |
 | limitResults | int | `0` _(all)_ |
 | listToSearch | obj | `undefined` |
-| parseMethod | string `['greedy', 'strict']` | `'greedy'` |
+| parseMethod | string `['greedy', 'strict', 'symbol-permissive']` | `'greedy'` |
 | placeholder | string | `undefined` |
 | showMatchCount | bool | `false` |
 | showWhenNoMatches | bool | `false` |
@@ -136,10 +136,16 @@ console.log(qux[1]._firstInCategory)     // undefined
 ## Parsing Methods
 
 `greedy` (Default):
+
 Attempts to match a string from any starting point. Beyond that, the results will take on the order in which they were passed in.
 
 `strict`:
+
 Attempts to match a string starting from the beginning. All other matches are discarded
+
+`symbol-permissive`:
+
+Attempts to match a string starting from the beginning, but will also match if there are symbols or whitespaces (`/[\W\s]/`) leading up to the matching string.
 
 ```javascript
 this.props.listToSearch = {
@@ -152,10 +158,14 @@ this.props.listToSearch = {
     { name: 'corge' },
     { name: 'foobar' },
   ],
+  grault: [
+    { name: '[bar]bazqux' },
+    { name: 'bazqux' },
+  ],
 };
 
 // <input />
-e.target.value = 'ba'
+e.target.value = 'ba';
 
 // RESULTS //
 
@@ -166,7 +176,9 @@ e.target.value = 'ba'
   { name: 'bar', _category: 'foo', _firstInCategory: true },
   { name: 'baz', _category: 'foo' },
   { name: 'foobar', _category: 'qux' },
-]
+  { name: '[bar]bazqux', _category: 'grault', _firstInCategory: true },
+  { name: 'bazqux', _category: 'grault' },
+]; // 5 matches
 
 // 'strict'
 
@@ -174,7 +186,18 @@ e.target.value = 'ba'
 [...this.state.results] = [
   { name: 'bar', _category: 'foo', _firstInCategory: true },
   { name: 'baz', _category: 'foo' },
-]
+  { name: 'bazqux', _category: 'grault' },
+]; // 3 matches
+
+// 'symbol-permissive'
+
+// spread operator to represent Set()
+[...this.state.results] = [
+  { name: 'bar', _category: 'foo', _firstInCategory: true },
+  { name: 'baz', _category: 'foo' },
+  { name: '[bar]bazqux', _category: 'grault', _firstInCategory: true },
+  { name: 'bazqux', _category: 'grault' },
+]; // 4 matches
 
 ```
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import exampleData from '../data/mappedBrews.js';
+import exampleData from '../data/private/stageUnivSearch.js';
 
 import UniversalSearch from '../../src/UniversalSearch.js';
 
@@ -60,7 +60,7 @@ class App extends React.Component {
             hasCategories
             limitResults={3}
             listToSearch={exampleData}
-            parseMethod="strict"
+            parseMethod="symbol-permissive"
             placeholder="Name or Style"
           />
         </div>
