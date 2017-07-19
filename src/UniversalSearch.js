@@ -25,6 +25,13 @@ class UniversalSearch extends React.Component {
     this.includeCategories = typeof this.includeCategories !== 'undefined' ? this.props.hasCategories : this.checkForCategories(props.listToSearch);
   }
 
+  componentDidMount() {
+    const validParseMethods = ['strict', 'greedy'];
+    if (this.props.parseMethod && !validParseMethods.includes(this.props.parseMethod)) {
+      console.warn(`Invalid Method: "${this.props.parseMethod}".\nFalling back to "greedy"\n\nValid Options are ['strict', 'greedy']. If no method is specified, "greedy" will automatically be used without showing this warning.`);
+    }
+  }
+
   checkForCategories(listToSearch) {
     const listKeys = Object.keys(listToSearch);
     for (let i = 0; i < listKeys.length; i++) {
@@ -40,8 +47,15 @@ class UniversalSearch extends React.Component {
   inputQuery(e) {
     // escape input and build RE query
     let input = e.target.value.replace(/[\.\+\*\?\^\$\[\]\{\}\(\)\|\/\\]/ig, sym => `\\${sym}`);
-    let re = input.trim().length > 0 ? new RegExp(input.trim(), 'gi') : '';
-    
+    let re;
+
+    if (this.props.parseMethod === 'strict') {
+      re = input.trim().length > 0 ? new RegExp(`^${input.trim()}`, 'gi') : '';
+    }
+    else {
+      re = input.trim().length > 0 ? new RegExp(input.trim(), 'gi') : '';
+    }
+
     this.setState({
       query: input,
     });
