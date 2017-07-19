@@ -2,30 +2,30 @@ import React from 'react';
 
 const formattingErr = ` Cannot parse object. Please make sure you're passing in "listToSearch" in one of the following formats:
 
-  Plain Array of Objects (i.e. No Categories):
+Plain Array of Objects (i.e. No Categories):
 
-  [
-    {foo: "bar"},
-    {baz: "qux"},
-    {quux: "corge"},
+[
+  { name: 'foo' },
+  { name: 'bar' },
+  { name: 'baz' },
+  ...
+]
+
+---
+
+Keyed Objects Containing Arrays:
+
+{
+  foo: [
+    {name: 'bar'},
     ...
-  ]
-
-  ---
-
-  Keyed Objects Containing Arrays:
-
-  {
-    foo: [
-      {bar: "baz"},
-      ...
-    ],
-    qux: [
-      {quux: "corge"},
-      ...
-    ],
+  ],
+  baz: [
+    {name: 'qux'},
     ...
-  }
+  ],
+  ...
+}
 `;
 
 const methodWarning = passedMethod => `
