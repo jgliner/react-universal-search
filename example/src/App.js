@@ -45,7 +45,7 @@ class App extends React.Component {
       <div className="brew-result-count">{matches} Brews Found!</div>
     );
 
-    const customNoMatch = () => (
+    const customNoMatch = (
       <div className="brew-no-match">No matches! Sorry about that :(</div>
     );
 

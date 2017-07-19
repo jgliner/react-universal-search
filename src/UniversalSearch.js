@@ -210,7 +210,7 @@ class UniversalSearch extends React.Component {
       return null;
     }
     return this.props.customNoMatchComponent ?
-      this.props.customNoMatchComponent() : <div className="univ-search-no-matches">No Matches...</div>
+      this.props.customNoMatchComponent : <div className="univ-search-no-matches">No Matches...</div>
   }
 
   render() {
