@@ -230,7 +230,10 @@ class UniversalSearch extends React.Component {
         {matchCountComponent}
         <br />
         <br />
-        <div className="univ-search-results-wrapper">
+        <div
+          className="univ-search-results-wrapper"
+          style={{ display: this.state.query ? 'inherit' : 'none' }}
+        >
           {matchingItemElements}
         </div>
       </div>
