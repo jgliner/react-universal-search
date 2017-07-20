@@ -227,8 +227,13 @@ class UniversalSearch extends React.Component {
 
   blurHandler(e) {
     if (this.props.focusedOnly && !e.relatedTarget) {
-      this.setState({ focused: false });
+      this.setState({
+        focused: false,
+        query: '',
+      });
+      this.state.results.clear();
     }
+    e.target.value = '';
   }
 
   render() {
