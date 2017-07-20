@@ -54,6 +54,7 @@ class UniversalSearch extends React.Component {
     this.renderMatchCount = this.renderMatchCount.bind(this);
     this.renderIfNoMatches = this.renderIfNoMatches.bind(this);
     this.focusHandler = this.focusHandler.bind(this);
+    this.blurHandler = this.blurHandler.bind(this);
   }
 
   componentWillMount() {
@@ -220,9 +221,13 @@ class UniversalSearch extends React.Component {
 
   focusHandler() {
     if (this.props.focusedOnly) {
-      this.setState({
-        focused: !this.state.focused,
-      });
+      this.setState({ focused: true });
+    }
+  }
+
+  blurHandler(e) {
+    if (this.props.focusedOnly && !e.relatedTarget) {
+      this.setState({ focused: false });
     }
   }
 
@@ -239,10 +244,11 @@ class UniversalSearch extends React.Component {
     return (
       <div className="univ-search-wrapper">
         <input
+          className="univ-search-input"
           placeholder={this.props.placeholder}
           onChange={this.inputQuery}
-          onFocus={this.focusHandler}
-          onBlur={this.focusHandler}
+          onMouseUp={this.focusHandler}
+          onBlur={this.blurHandler}
         />
         {matchCountComponent}
         <br />
@@ -250,6 +256,7 @@ class UniversalSearch extends React.Component {
         <div
           className="univ-search-results-wrapper"
           style={{ display: showResults ? 'inherit' : 'none' }}
+          onClick={this.blurHandler}
         >
           {matchingItemElements}
         </div>

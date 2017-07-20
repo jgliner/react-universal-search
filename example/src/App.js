@@ -12,6 +12,10 @@ class App extends React.Component {
     this.state = {};
   }
 
+  handlePress(e) {
+    console.info(`you just pressed ${e.target.value}`);
+  }
+
   render() {
     const resultsHeader = brew => (
       <div className="brew-result-header">
@@ -21,8 +25,10 @@ class App extends React.Component {
 
     const customComponent = (brew, i) => {
       const entry = (
-        <div
+        <button
+          onClick={this.handlePress}
           key={i}
+          value={brew.name}
           className={`brew-search-component ${brew._firstInCategory ? 'brew-search-category-head' : ''}`}
         >
           <div className="brew-result-text-header">
@@ -36,7 +42,7 @@ class App extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+        </button>
       );
       return entry;
     };

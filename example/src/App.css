@@ -5,6 +5,16 @@
   background-color: #DADFE4;
 }
 .brew-search-component {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none !important;
+  border: none;
+  background-color: inherit;
+  font-size: initial;
+  font-family: inherit;
+  text-align: inherit;
+
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -14,6 +24,7 @@
   border-top: none;
   width: 500px;
   padding: 15px 5px;
+  cursor: pointer;
 }
 
 .brew-result-text-header {
@@ -22,6 +33,7 @@
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  pointer-events: none;
 }
 .brew-result-text {
   display: flex;
@@ -29,6 +41,12 @@
   align-items: center;
   align-content: center;
   width: 100%;
+}
+.brew-search-component:hover .brew-result-text {
+  opacity: 0.5;
+}
+.brew-search-component:focus {
+  background-color: #4D4D4D;
 }
 .brew-mug {
   height: 25px;
