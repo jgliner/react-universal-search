@@ -8,7 +8,7 @@
   },
   "description": "Highly customizable/discrete client-side 'auto-complete' component for large datasets",
   "author": "Jarrett Gliner",
-  "repository": "https://github.com/jgliner/react-sortable-stats-table",
+  "repository": "https://github.com/jgliner/react-universal-search",
   "license": "MIT",
   "frameworks": [
     "webpack",
